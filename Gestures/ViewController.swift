@@ -13,6 +13,15 @@ class ViewController: UIViewController {
         return button
     }()
     
+    private let label: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Label"
+        label.textColor = .black
+        label.isUserInteractionEnabled = true
+        return label
+    }()
+    
     // MARK: Lifecycle
 
     override func viewDidLoad() {
@@ -21,9 +30,13 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(button)
+        view.addSubview(label)
         
         setupButtonConstraint()
-        setupLongPressGesture()
+        setupLabelConstraint()
+        
+        setupButtonLongPressGesture()
+        setupLabelLongPressGesture()
     }
     
     // MARK: Setup Constraints
@@ -33,20 +46,39 @@ class ViewController: UIViewController {
         button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
+    private func setupLabelConstraint() {
+        label.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 40).isActive = true
+        label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    }
+    
     // MARK: Gestures
     
-    private func setupLongPressGesture() {
+    private func setupButtonLongPressGesture() {
         let longPressGesture = UILongPressGestureRecognizer(
             target: self,
-            action: #selector(onLongPressed)
+            action: #selector(buttonOnLongPressed)
         )
+        
         button.addGestureRecognizer(longPressGesture)
+    }
+    
+    private func setupLabelLongPressGesture() {
+        let longPressGesture = UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(labelOnLongPressed)
+        )
+
+        label.addGestureRecognizer(longPressGesture)
     }
     
     // MARK: Actions
     
-    @objc func onLongPressed(sender: Any) {
-        print("long pressed")
+    @objc func buttonOnLongPressed(sender: Any) {
+        print("button long pressed")
+    }
+    
+    @objc func labelOnLongPressed(sender: Any) {
+        print("label long pressed")
     }
     
 }
